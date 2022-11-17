@@ -23,14 +23,14 @@
 |**Object unit of measure**<br>Name|
 
 ## crud_odata
-oData CRUD
-RFC Kullanımı
-Search Help Kulanımı
-Function Import
-Create Deep Entity
-Get Expanded Entity/Entityset
-Serialize/Deserialize
-Create Stream/Get Stream
+- oData CRUD
+- RFC Kullanımı
+- Search Help Kulanımı
+- Function Import
+- Create Deep Entity
+- Get Expanded Entity/Entityset
+- Serialize/Deserialize
+- Create Stream/Get Stream
 
 
 ### Starting the generated app

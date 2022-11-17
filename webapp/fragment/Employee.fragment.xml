@@ -1,0 +1,56 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified">
+	<Dialog id="dialogEmployee" afterClose="onAfterCloseDialog">
+    <content>
+	<f:SimpleForm id="SimpleFormDisplay354"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			title="{i18n>fragmentTtitle}"
+			labelSpanXL="3"
+			labelSpanL="3"
+			labelSpanM="3"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<Label text="{i18n>id}" />
+                <Input value="{NewEmployeeModel>/Id}"/>
+                <Label text="{i18n>name}" />
+                <Input value="{NewEmployeeModel>/Name}"/>
+                <Label text="{i18n>surname}" />
+                <Input value="{NewEmployeeModel>/Surname}"/>
+                <ComboBox selectedKey="{NewEmployeeModel>/Title}">
+                    <items>
+                        <core:Item text="Developer"     key="dev"/>
+                        <core:Item text="Team Lead"     key="teaml"/>
+                        <core:Item text="Techinal Lead" key="techl"/>
+                    </items>
+                </ComboBox>
+				<Label/>
+				<u:FileUploader
+					id="fileUploader"
+					useMultipart="false"
+					sendXHR="true"
+					name="myFileUpload"
+					uploadUrl="/sap/opu/odata/sap/ZRA_EGITIM_SRV/ImageSet"
+					tooltip="Upload your file to the local server"
+					uploadComplete="handleUploadComplete"/>
+			</f:content>
+		</f:SimpleForm>
+    </content>
+    <buttons>
+        <Button text="{i18n>close}" press="onCloseDialog"/>
+        <Button text="{i18n>save}" press="onSaveEmployee"/>
+    </buttons>
+    </Dialog>
+</core:FragmentDefinition>

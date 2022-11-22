@@ -175,26 +175,51 @@ sap.ui.define([
 
             //     }
             // })
-
+            /////////////////////////////////////////////////////
             //FUNCTION IMPORT KULLANARAK DELETE
+            // var that = this;
+            // var sId = oEvent.getSource().getBindingContext("EmployeeModel").getProperty("Id");
+
+            // var sParams = {
+            //     Id: sId
+            // };
+            // this.getView().getModel().callFunction("/DeleteEmployee",{
+            //     method:"GET",
+            //     urlParameters: sParams,
+            //     async: true,
+            //     success: function(oData){
+            //         var aData = oData.results;
+            //         var oModel = new JSONModel(aData);
+            //         this.getView().setModel(oModel,"EmployeeModel");
+            //         //this.onGetData();
+            //     }.bind(this),
+            //     error: function(){
+            //     }
+            // });
+
+            //HATA MESAJI DÖNEN DELETE (ERROR HANDLER)
             var that = this;
             var sId = oEvent.getSource().getBindingContext("EmployeeModel").getProperty("Id");
-            var sParams = {
-                Id: sId
-            };
-            this.getView().getModel().callFunction("/DeleteEmployee",{
-                method:"GET",
-                urlParameters: sParams,
-                async: true,
-                success: function(oData){
-                    var aData = oData.results;
-                    var oModel = new JSONModel(aData);
-                    this.getView().setModel(oModel,"EmployeeModel");
-                    //this.onGetData();
-                }.bind(this),
-                error: function(){
-                }
-            });
+            this.getView().getModel().remove("/EmployeeSet('" + sId + "')",{
+                success: function(oData,response){
+                    var hdrMessage = response.headers["sap-message"];
+                    if(hdrMessage !== undefined){
+                        var hdrMessageObject = JSON.parse(hdrMessage);
+                        if(hdrMessageObject.severity === "error"){
+                            hdrMessageObject.details.push({
+                                code:hdrMessageObject.code,
+                                message:hdrMessageObject.message,
+                                severity:hdrMessageObject.severity
+                            });
+                            var oErrorHandler = that.getOwnerComponent()._oErrorHandler;
+                            oErrorHandler._displayMessages(hdrMessageObject.details);
+                            return;
+                        }
+                    }
+                    that.onGetData();
+                },
+                error:function(a,b,c){}
+                });
 
         },
         _getEmployeeDialog: function(){
@@ -242,17 +267,23 @@ sap.ui.define([
             })
         },
         //GET EXPANDED ENTITYSET
-        onGetAllEmployeeAndProject: function(){                           
-            this.getView().getModel().read("/EmployeeSet",{
-                async: true,
-                urlParameters: {
-                    "$expand": "EmployeeToProject"
-                },
-                success: function (oData){
-                    //odata çinde tüm çalışanlar ve o çalışanlara ait projeler var
-                }.bind(this),
-                error: function(){}
-            });
+        onGetAllEmployeeAndProject: function(){      
+            
+            this.getRouter().navTo("AllData");
+
+            //bu işlemleri yeni bir controllerda yaptım
+            //burada yapınca da çalışıyor
+            // var that = this;                 
+            // this.getView().getModel().read("/EmployeeSet",{
+            //     async: true,
+            //     urlParameters: {
+            //         "$expand": "EmployeeToProject"
+            //     },
+            //     success: function (oData){
+            //         //odata çinde tüm çalışanlar ve o çalışanlara ait projeler var
+            //     }.bind(this),
+            //     error: function(){}
+            // });
         },
         //SERIALIZE
         onApproveAllEmployeeJson: function(){
@@ -261,9 +292,9 @@ sap.ui.define([
                 HeaderToItem: this.getView().getModel("EmployeeModel").getData()
             };
             var sParams = {
-                Content: JSON.stringify(sRequest)
+                Content: JSON.stringify(sRequest) //serialize
             };
-            this.getView().getModel().callFunction("/ApproveEmployee"),{
+            this.getView().getModel().callFunction("/ApproveEmployeeJson"),{
                 method: "GET",
                 urlParameters: sParams,
                 success: function(oData){
@@ -274,17 +305,18 @@ sap.ui.define([
         },
         //DESERIALIZE
         onGetAllEmployeeAndProjectJson: function(){
-            var that = this;
-            that.getView().getModel().callFunction("/GetEmployeeAndProject",{
+            this.getView().getModel().callFunction("/GetEmployeeAndProject",{
                 method: "GET",
                 urlParameters: null,
                 async: true,
                 success: function(oData){
-                    var aData = JSON.parse(oData.GetEmployeeAndProject.sMessage);
+                    var aData = JSON.parse(oData.GetEmployeeAndProject.Message); //deserialize
+                    var adata2 = adata;
                 },
                 error: function(){}
             });
         },
+        //CREATE STREAM
         onStartUpload: function(){
             var oModel= this.getView().getModel();
             var oFileUploader = sap.ui.getCore().byId("fileUploader");

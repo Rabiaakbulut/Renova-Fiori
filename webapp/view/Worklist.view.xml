@@ -32,7 +32,6 @@
                             id="tableHeader"
                             text="{worklistView>/worklistTableTitle}"
                             level="H3"/>
-                        <ToolbarSpacer />
                         <SearchField
                             id="searchField"
                             tooltip="{i18n>worklistSearchTooltip}"
@@ -55,20 +54,26 @@
                 </headerToolbar>
 
                 <columns>
-                    <Column id="nameColumn">
-                        <Text text="{i18n>col}" id="nameColumnTitle"/>
+                    <Column>
+                        <Text text="{i18n>image}" id="nameColumnTitle"/>
                     </Column>
-                    <Column  hAlign="End">
-                        <Text text="{i18n>col}"/>
+                    <Column >
+                        <Text text="{i18n>id}"/>
                     </Column>
-                    <Column hAlign="End">
-                        <Text text="{i18n>col}"/>
+                    <Column>
+                        <Text text="{i18n>name}"/>
                     </Column>
-                    <Column hAlign="End">
-                        <Text text="{i18n>col}"/>
+                    <Column>
+                        <Text text="{i18n>surname}"/>
                     </Column>
-                    <Column hAlign="End">
-                        <Text text="{i18n>col}"/>
+                    <Column>
+                        <Text text="{i18n>title}"/>
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>projects}"/>
+                    </Column>
+                    <Column>
+                        <Text text="{i18n>others}"/>
                     </Column>
                 </columns>
 
@@ -77,17 +82,18 @@
                         <cells>
                         <Image src="/sap/opu/odata/sap/ZRA_EGITIM_SRV/ImageSet(DocId='{EmployeeModel>Id}')/$value" width="5rem" height="3rem"/>
                             <ObjectIdentifier
+                                title="{EmployeeModel>Id}"/>
+                            <ObjectIdentifier
                                 title="{EmployeeModel>Name}"/>
                             <ObjectIdentifier
                                 title="{EmployeeModel>Surname}"/>
                             <ObjectIdentifier
                                 title="{EmployeeModel>Title}"/>
-                                <VBox >
+                            <Button press="onShowProjects" icon="sap-icon://show"></Button>       
+                            <VBox >
                                 <Button press="onEditEmployee" icon="sap-icon://edit"></Button>
                                 <Button press="onDelete" icon="sap-icon://delete"></Button>
-                                <Button press="onShowProjects" icon="sap-icon://show"></Button>
-                                </VBox >
-
+                            </VBox >
                         </cells>
                     </ColumnListItem>
                 </items>

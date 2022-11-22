@@ -1,0 +1,26 @@
+
+<mvc:View controllerName="crudodata.controller.AllData" 
+xmlns:l="sap.ui.layout" 
+xmlns="sap.m" 
+xmlns:mvc="sap.ui.core.mvc" height="100%">
+	<l:VerticalLayout class="sapUiContentPadding" width="100%">
+		<l:content>
+<Table inset="false" items="{AllDataModel>/}">
+                        <columns>
+                            <Column width="12em"></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem vAlign="Middle">
+                                <cells>
+                                    <Panel headerText="{AllDataModel>Name}" expandable="true" expanded="true">
+                                        <List items="{AllDataModel>EmployeeToProject/results}">
+                                            <StandardListItem title="{AllDataModel>ProjectName}" />
+                                        </List>
+                                    </Panel>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+		</l:content>
+	</l:VerticalLayout>
+</mvc:View>
